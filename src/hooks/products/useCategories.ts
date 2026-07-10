@@ -9,6 +9,6 @@ export const useCategories =() =>{
             staleTime: 1000 * 60 *5,
         }
     );
-    return {categories:data, isLoading};
+    return {categories:data, isLoadingCategories:isLoading};
 }
 

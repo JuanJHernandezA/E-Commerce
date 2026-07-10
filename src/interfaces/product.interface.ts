@@ -20,12 +20,14 @@ export interface VariantProduct{
 export interface Brand {
     id_brand:number;
     name_brand:string;
+    images:string[] | null;
     description:string | null
 }
 
 export interface Category{
     id_category:number;
     name_category:string;
+    images:string[] | null;
     description:string | null
 }
 

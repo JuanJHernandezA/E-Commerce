@@ -13,6 +13,16 @@ export const navbarLinks = [
     },
     {
         id: 3,
+        title:'Categorías',
+        href: '/categorias'
+    },
+    {id:4,
+        title: 'Marcas',
+        href:'/marcas'
+
+    },
+    {
+        id: 5,
         title:'Sobre nosotros',
         href: '/sobre-nosotros'
     }
