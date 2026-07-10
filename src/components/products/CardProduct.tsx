@@ -9,7 +9,7 @@ interface Props {
     img:string;
      name:string; price:number; slug: string; colors:{name:string, color:string}[]; variants: VariantProduct[];
 }
-const CardProduct = ({ img, name, price, slug, colors, variants }: Props) => {
+const CardProduct = ({ img, name, price,  slug, colors, variants }: Props) => {
 
     const [activeColor, setActiveColor] = useState
     <{name:string, color:string}>(colors[0]);

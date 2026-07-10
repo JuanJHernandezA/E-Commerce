@@ -1,10 +1,28 @@
 import React from 'react'
 import Separator from '../shared/Separator';
+import type { Brand } from '../../interfaces';
 
-const availableBrands = [
-    'Samsung', 'Apple', 'Xiaomi',  'Huawei',  'Realme', 'Honor'
-];
-const ContainerFilter = () => {
+
+
+
+interface Props {
+  selectedBrands : string[];
+  setSelectedBrands: (brands:string[])=>void;
+  brands: Brand[]
+}
+
+const ContainerFilter = ({selectedBrands,setSelectedBrands, brands}:Props) => {
+
+  
+
+  const handleBrandChange = (brand:string)=>{
+    if (selectedBrands.includes(brand)){
+      setSelectedBrands(selectedBrands.filter(b=>b !==brand));
+    } else{
+      setSelectedBrands([...selectedBrands, brand]);
+    }
+  }
+ 
   return (
     <div className='p-5 border border-slate-200 rounded-lg h-fit col-span-2 lg:col-span-1'>
       <h3 className="font-semibold text-xl mb-4">
@@ -16,10 +34,10 @@ const ContainerFilter = () => {
             Marcas
         </h3>
         <div className="flex flex-col gap-2">
-            {availableBrands.map(brand=>(
-                <label key={brand} className='inline-flex items-center'>
-                    <input type='checkbox' className='text-black border-black focus:ring:black accent-black' />
-                    <span className='ml-2 text-black text-sm cursor-pointer'>{brand}</span>
+            {brands.map(brand=>(
+                <label key={brand.id_brand} className='inline-flex items-center'>
+                    <input type='checkbox' className='text-black border-black focus:ring:black accent-black' checked={selectedBrands.includes(brand.name_brand)} onChange={()=>handleBrandChange(brand.name_brand)}/>
+                    <span className='ml-2 text-black text-sm cursor-pointer'>{brand.name_brand}</span>
                 </label>
             ))}
         </div>

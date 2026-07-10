@@ -4,9 +4,14 @@ import ProductGrid from '../components/home/ProductGrid'
 import Brands from '../components/home/Brands'
 import {allCelulares, popularCelulares, recentCelulares} from '../data/initialData';
 import { prepareProducts } from '../helpers';
+import {useProducts} from '../hooks';
+import { useBrands } from '../hooks';
+import { useCategories } from '../hooks';
 
 const HomePage = () => {
-
+    const {products, isLoading}= useProducts();
+    // const {categories, isLoadingCategories} = useCategories();
+    // const {brands, isLoadingBrands} = useBrands();
     const preparedRecentProducts = prepareProducts(recentCelulares);
     const preparedPopularProducts = prepareProducts(popularCelulares);
   return (
