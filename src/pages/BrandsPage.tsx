@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import CardBrand from '../components/products/CardBrand';
 import { useBrands, useBrandsWithProducts } from '../hooks';
 import Pagination from '../components/shared/Pagination';
+import Loader from '../components/shared/Loader';
 
 
-const BrandsPage = () => {
+export const BrandsPage = () => {
     const [page,setPage]=useState(1);
     const {brandsFiltered, isLoadingFilterBrand} = useBrandsWithProducts();
-    
+    if(isLoadingFilterBrand) return <Loader />
 
     
 
@@ -18,7 +19,7 @@ const BrandsPage = () => {
 
     <div className='grid gap-3  '>
     {
-        (isLoadingFilterBrand || !brandsFiltered) ? (
+        (!brandsFiltered) ? (
           <div className="col-span-2 flex items-center justify-center h-[500px]">
 
           </div>

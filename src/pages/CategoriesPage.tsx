@@ -1,19 +1,21 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import CardCategory from '../components/products/CardCategory';
 import Pagination from '../components/shared/Pagination';
-import { useCategories, useCategoriesWithProducts } from '../hooks';
+import { useCategoriesWithProducts } from '../hooks';
+import Loader from '../components/shared/Loader';
 
-const CategoriesPage = () => {
+export const CategoriesPage = () => {
   const [page,setPage]=useState(1);
 
        const {categoriesFiltered, isLoadingFilterCategory} = useCategoriesWithProducts();
+       if(isLoadingFilterCategory) return <Loader />
   return (
     <div>
       <h1 className='text-5xl font-semibold text-center mb-12'>Categorías</h1>
 
     <div className='grid gap-3  '>
     {
-        (isLoadingFilterCategory || !categoriesFiltered) ? (
+        (!categoriesFiltered) ? (
           <div className="col-span-2 flex items-center justify-center h-[500px]">
 
           </div>

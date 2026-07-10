@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AboutPage = () => {
+export const AboutPage = () => {
   return (
     <div className='space-y-5 max-w-6xl mx-auto'>
       <h1 className="text-center text-4xl font-semibold tracking-tight mb-5">

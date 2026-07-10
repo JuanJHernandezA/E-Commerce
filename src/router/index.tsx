@@ -1,10 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { RootLayout } from "../layouts/RootLayout";
-import HomePage from "../pages/HomePage";
-import CellPhonesPage from "../pages/CellPhonesPage";
-import AboutPage from "../pages/AboutPage";
-import BrandsPage from "../pages/BrandsPage";
-import CategoriesPage from "../pages/CategoriesPage";
+import {HomePage, CellPhonesPage, AboutPage, BrandsPage, CategoriesPage, CellPhonePage} from "../pages";
+
 
 export const router = createBrowserRouter([
     {
@@ -22,6 +19,10 @@ export const router = createBrowserRouter([
             {
                 path:'marcas',
                 element: <BrandsPage />
+            },
+            {
+                path:'celulares/:slug',
+                element: <CellPhonePage />
             },
             {
                 path:'categorias',

@@ -1,17 +1,13 @@
-import React from 'react'
+
 import FeatureGrid from '../components/home/FeatureGrid'
 import ProductGrid from '../components/home/ProductGrid'
 import Brands from '../components/home/Brands'
 import { prepareProducts } from '../helpers';
 import {useHomeProducts, useProducts} from '../hooks';
-import { useBrands } from '../hooks';
-import { useCategories } from '../hooks';
 import ProductGridSkeleton from '../components/skeletons/ProductGridSkeleton';
 
-const HomePage = () => {
+export const HomePage = () => {
     const {recentProducts,popularProducts, isLoading}= useHomeProducts();
-    // const {categories, isLoadingCategories} = useCategories();
-    // const {brands, isLoadingBrands} = useBrands();
     const preparedRecentProducts = prepareProducts(recentProducts);
     const preparedPopularProducts = prepareProducts(popularProducts);
   return (
