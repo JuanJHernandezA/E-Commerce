@@ -3,7 +3,7 @@ interface Props {
     images: string[];
 }
 const GridImages = ({images}:Props) => {
-    const {activeImage, setActiveImage} = useState(images[0]);
+    const [activeImage, setActiveImage] = useState(images[0]);
     const handleImageClick=(image:string)=>{
         setActiveImage(image);
     }
