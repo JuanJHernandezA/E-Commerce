@@ -4,3 +4,6 @@ export * from './CellPhonesPage';
 export * from './CellPhonePage';
 export * from './BrandsPage';
 export * from './CategoriesPage';
+export * from './LoginPage';
+export * from './RegisterPage'
+export * from './OrdersUserPage'
