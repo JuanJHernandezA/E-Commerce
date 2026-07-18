@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const OrdersUserPage = () => {
+export const OrdersUserPage = () => {
   return (
     <div className='flex flex-col gap-6 items-center'>
       <div className="flex gap-2">
@@ -22,4 +22,4 @@ const OrdersUserPage = () => {
   )
 }
 
-export default OrdersUserPage
+

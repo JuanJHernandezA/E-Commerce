@@ -1,10 +1,10 @@
 import type { Color, Product, VariantProduct } from "../interfaces";
 
 export const formatPrice = (price:number) => {
-    return new Intl.NumberFormat('es-US', {
+    return new Intl.NumberFormat('es-ES', {
         style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2,
+        currency: 'COP',
+        minimumFractionDigits: 0,
         maximumFractionDigits: 2
     }).format(price);
 }

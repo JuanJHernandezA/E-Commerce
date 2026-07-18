@@ -60,7 +60,7 @@ const CartItem = ({item}:Props) => {
                                             </button>
                                             
                 </div>
-                <button className="underline font-medium text-[10px] " onClick={()=>removeItem(item.variantId)}>
+                <button className="underline font-medium text-[10px] cursor-pointer" onClick={()=>removeItem(item.variantId)}>
                     Eliminar
                 </button>
                 

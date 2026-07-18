@@ -5,5 +5,8 @@ export * from './CellPhonePage';
 export * from './BrandsPage';
 export * from './CategoriesPage';
 export * from './LoginPage';
-export * from './RegisterPage'
-export * from './OrdersUserPage'
+export * from './RegisterPage';
+export * from './OrdersUserPage';
+export * from './CheckoutPage';
+export * from './ThankyouPage';
+export * from './OrderUserPage'

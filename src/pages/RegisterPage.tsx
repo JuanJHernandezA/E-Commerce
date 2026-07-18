@@ -1,31 +1,16 @@
 import React from 'react'
 import { Link, Navigate } from 'react-router-dom'
-import {z} from 'zod'
+
 import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import { useRegister, useUser } from '../hooks'
 import { LuLoader } from 'react-icons/lu'
 import Loader from '../components/shared/Loader'
+import { userRegisterSchema, type UserRegisterFormValues } from '../lib/validators'
 
-export const userRegisterSchema = z.object({
-  email:z.string().email('El correo electrónico no es válido'),
-  password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres")
-    .regex(/[a-z]/, "Debe contener al menos una letra minúscula")
-    .regex(/[A-Z]/, "Debe contener al menos una letra mayúscula")
-    .regex(/\d/, "Debe contener al menos un número")
-    .regex(
-      /[@$!%*?&._\-#]/,
-      "Debe contener al menos un carácter especial (@$!%*?&._-#)"
-    ),
-  fullName: z.string().min(3, 'El nombre completo es requerido').trim(),
-  phone: z.string()
-    .regex(/^\+?[0-9]{7,15}$/, "El teléfono no es válido")
-    .optional()
-    .or(z.literal(""))
-});
-export type UserRegisterFormValues = z.infer<typeof userRegisterSchema>
 
-const RegisterPage = () => {
+
+export const RegisterPage = () => {
 
   const {register, handleSubmit, formState:{errors}} = useForm<UserRegisterFormValues>({
       defaultValues:{
@@ -166,4 +151,3 @@ const RegisterPage = () => {
   )
 }
 
-export default RegisterPage

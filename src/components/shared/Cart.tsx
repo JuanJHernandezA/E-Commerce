@@ -38,13 +38,13 @@ const Cart = () => {
           </ul>
         </div>
 
-        <div className="mt-34 p-7">
+        <div className="mt-3 p-7">
           <Link to='/checkout' className='w-full bg-black text-white py-3.5 rounded-full flex items-center justify-center gap-3'>
           <RiSecurePaymentLine size={24} />
           Continuar con la compra
           </Link>
 
-          <button className='mt-3 w-full text-black border border-black rounded-full py-3' onClick={cleanCart}>
+          <button className='mt-3 w-full text-black border border-black rounded-full py-3 cursor-pointer' onClick={cleanCart}>
               Limpiar carrito
           </button>
         </div>

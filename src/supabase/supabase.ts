@@ -206,6 +206,7 @@ export type Database = {
           created_at: string
           customer_id: string
           id: number
+          receipt_url: string[] | null
           status: string
           total_amount: number
         }
@@ -214,6 +215,7 @@ export type Database = {
           created_at?: string
           customer_id: string
           id?: number
+          receipt_url?: string[] | null
           status?: string
           total_amount: number
         }
@@ -222,6 +224,7 @@ export type Database = {
           created_at?: string
           customer_id?: string
           id?: number
+          receipt_url?: string[] | null
           status?: string
           total_amount?: number
         }

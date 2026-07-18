@@ -3,7 +3,7 @@ import { LuLoader } from 'react-icons/lu';
 import { Link, Navigate } from 'react-router-dom'
 import { useLogin, useUser } from '../hooks'
 import Loader from '../components/shared/Loader';
-const LoginPage = () => {
+export const LoginPage = () => {
 
   const [email, setEmail] =useState('customer@gmail.com');
   const [password, setPassword] =useState('Customer1*');
@@ -57,4 +57,4 @@ const LoginPage = () => {
   )
 }
 
-export default LoginPage
+

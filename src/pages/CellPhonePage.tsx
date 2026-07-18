@@ -262,4 +262,4 @@ export const CellPhonePage = () => {
   </>
 }
 
-export default CellPhonePage
+

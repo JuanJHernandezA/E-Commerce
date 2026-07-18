@@ -44,4 +44,4 @@ export const BrandsPage = () => {
   )
 }
 
-export default BrandsPage
+
