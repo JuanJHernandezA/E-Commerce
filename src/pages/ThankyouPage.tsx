@@ -1,20 +1,35 @@
 
-import { Link, useParams } from "react-router-dom";
-import { useOrder } from "../hooks";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useOrder, useUser } from "../hooks";
 import Loader from "../components/shared/Loader";
 import { CiCircleCheck } from "react-icons/ci";
 import { formatPrice } from "../helpers";
 import Separator from "../components/shared/Separator";
+import { useEffect } from "react";
+import { supabase } from "../supabase/client";
 
 export const ThankyouPage = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, isError } = useOrder(Number(id));
 
   if (isError ) return <div>Error al cerrar la orden</div>;
-  if (isLoading || !data) return <Loader />;
+ 
+
+  const { isLoading:isLoadingUser } = useUser();
+    const navigate = useNavigate();
+  
+    useEffect(() => {
+      supabase.auth.onAuthStateChange(async (event, session) => {
+        if (event === "SIGNED_OUT" || !session) {
+          navigate("/login");
+        }
+      });
+    }, [navigate]);
+  
+     if (isLoading || !data || isLoadingUser) return <Loader />;
   return (
     <div className="flex flex-col h-screen">
-      <header className="text-blac flex items-center justify-center flex-col px-10 py-12">
+      <header className="text-black flex items-center justify-center flex-col px-10 py-12">
         <Link
           to="/"
           className="text-4xl font-bold self-center tracking-tighter transition-all md:text-5xl"
@@ -25,8 +40,8 @@ export const ThankyouPage = () => {
           </p>
         </Link>
       </header>
-      <main className="container flex-1 flex flex-col items-center gap-10">
-        <div className="flex gap-3 ites-center">
+      <main className="container mx-auto flex-1 flex flex-col items-center gap-10">
+        <div className="flex gap-3 items-center">
           <CiCircleCheck size={40} />
           <p className="text-4xl">¡Gracias, {data.customer.full_name}!</p>
         </div>

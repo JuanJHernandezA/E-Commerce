@@ -15,3 +15,11 @@ export interface OrderInput {
   totalAmount: number;
   receipt: File;
 }
+
+export interface OrderItemSingle {
+  created_at:string;
+  id:number;
+  // status:'Pending'|'Paid'|'Shipped'|'Delivered'|'Cancelled';
+  status:string;
+  total_amount:number
+}
