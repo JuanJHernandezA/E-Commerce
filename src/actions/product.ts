@@ -1,38 +1,57 @@
 import type { Brand, Category } from '../interfaces';
 import { supabase } from '../supabase/client'
 
-export const getProducts = async ( )=>{
-    const {data: products, error} = await supabase.from('products').select('*, variants(*),brands(*),categories(*)').order('created_at' , {ascending:false});
+export const getProducts = async (page:number)=>{
+   const itemsPerPage =10;
+    const from = (page-1)*itemsPerPage;
+    const to = from + itemsPerPage -1;
+    const {data: products, error,count} = await supabase.from('products').select('*, variants(*),brands(*),categories(*)',{count:'exact'}).order('created_at' , {ascending:false}).range(from,to);
 
     if (error){
         console.log(error.message);
         throw new Error(error.message);
     }
 
-    return products;
+    return {products,count};
 }
-
-export const getCategories = async () =>{
-    const {data: categories, error} = await supabase.from('categories').select('*');
+export const getCategories = async (page:number)=>{
+   const itemsPerPage =10;
+    const from = (page-1)*itemsPerPage;
+    const to = from + itemsPerPage -1;
+    const {data: categories, error,count} = await supabase.from('categories').select('*, products(count)',{count:'exact'}).order('created_at' , {ascending:false}).range(from,to);
 
     if (error){
         console.log(error.message);
         throw new Error(error.message);
     }
 
-    return categories;
+    const formattedCategories = categories.map((cat) => ({
+    ...cat,
+    quantity: cat.products?.[0]?.count ?? 0,
+  }));
+
+    return {categories:formattedCategories,count};
 }
+export const getBrands = async (page:number)=>{
+   const itemsPerPage =10;
+    const from = (page-1)*itemsPerPage;
+    const to = from + itemsPerPage -1;
+    const {data: brands, error,count} = await supabase.from('brands').select('*, products(count)',{count:'exact'}).order('created_at' , {ascending:false}).range(from,to);
 
-export const getBrands = async () =>{
-    const {data:brands ,  error} = await supabase.from('brands').select('*');
-
-     if (error){
+    if (error){
         console.log(error.message);
         throw new Error(error.message);
     }
 
-    return brands;
+     const formattedBrands = brands.map((br) => ({
+    ...br,
+    quantity: br.products?.[0]?.count ?? 0,
+  }));
+
+    return {brands:formattedBrands,count};
 }
+
+
 
 export const getFilteredProducts = async ({page=1, brands = [], categories=[]}: {page:number, brands:string[], categories: string[]})=>{
    

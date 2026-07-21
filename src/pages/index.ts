@@ -9,4 +9,7 @@ export * from './RegisterPage';
 export * from './OrdersUserPage';
 export * from './CheckoutPage';
 export * from './ThankyouPage';
-export * from './OrderUserPage'
+export * from './OrderUserPage';
+export * from './dashboard/DashboardProductsPage'
+export * from './dashboard/DashboardCategoriesPage'
+export * from './dashboard/DashboardBrandsPage'
