@@ -1,18 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import { useBrands, useCategories } from "../../../hooks";
+import type { FieldErrors, Path, UseFormSetValue } from "react-hook-form";
 import {
   IoAddCircleOutline,
+  IoCheckmark,
   IoChevronDown,
   IoSearch,
-  IoCheckmark,
 } from "react-icons/io5";
-import type { Brand, Category } from "../../../interfaces";
+import { useCategories } from "../../../hooks";
+import type { Category } from "../../../interfaces";
 import type {
-  BrandFormValues,
-  ProductFormValues,
+  ProductFormValues
 } from "../../../lib/validators";
-import type { FieldErrors, Path, UseFormSetValue } from "react-hook-form";
 
 interface Props {
   setValue: UseFormSetValue<ProductFormValues>;

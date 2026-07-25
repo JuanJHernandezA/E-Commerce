@@ -4,12 +4,12 @@ import type { Json } from '../../supabase/supabase';
 
 
 interface Props {
-    id_brand: number;
+
     img:string;
-     name_brand:string; description: Json;
+     name_brand:string 
 }
 
-const CardBrand = ({id_brand, img,name_brand, description}:Props) => {
+const CardBrand = ({ img,name_brand}:Props) => {
   
   return (
 

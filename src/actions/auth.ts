@@ -1,5 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '../supabase/client'
+import { supabase } from '../supabase/client';
 interface IAuthLogin {
     email: string,
     password: string

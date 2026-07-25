@@ -29,7 +29,6 @@ export const FormCategory = ({ titleForm }: Props) => {
     formState: { errors },
     setValue,
     watch,
-    control,
   } = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema),
   });

@@ -1,4 +1,3 @@
-import React from 'react'
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 import type { AddressFormValues } from '../../lib/validators';
 

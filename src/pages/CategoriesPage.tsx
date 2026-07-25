@@ -25,7 +25,7 @@ export const CategoriesPage = () => {
           <div className=" flex flex-col gap-12">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 gap-y-10 xl:grid-cols-4 ">
                 { categoriesFiltered.map(category=>(
-                  <CardCategory key={category.id_category} name_category={category.name_category} img={category.images?.[0] || ''}  description={category.description} id_category={category.id_category}/>
+                  <CardCategory key={category.id_category} name_category={category.name_category} img={category.images?.[0] || ''} />
                 )) }
             </div>
             <Pagination totalItems={categoriesFiltered?.length | 0} page={page} setPage={setPage}  />
