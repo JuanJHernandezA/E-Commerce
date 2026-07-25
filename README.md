@@ -182,7 +182,7 @@ pnpm preview
 
 ## Despliegue / Demo en Vivo
 
-**Demo:** [https://tu-proyecto.vercel.app](https://tu-proyecto.vercel.app)
+**Demo:** [techfull.netlify.app](https://techfull.netlify.app/)
 
 > Reemplaza este enlace con la URL de tu despliegue una vez realizado (Vercel, Netlify, etc.).
 
