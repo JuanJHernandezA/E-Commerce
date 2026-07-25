@@ -1,6 +1,5 @@
-import React from 'react'
-import CardProduct from '../products/CardProduct';
 import type { PreparedProducts } from '../../interfaces';
+import CardProduct from '../products/CardProduct';
 
 interface Props {
     title:string;

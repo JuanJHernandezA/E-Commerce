@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 interface Props {
     totalItems: number;
@@ -31,7 +31,7 @@ const Pagination = ({totalItems, page, setPage}:Props) => {
 
       <div className="flex gap-3">
         <button className='btn-paginated' onClick={handlePrevPage} disabled={page===1}>
-            Aterior
+            Anterior
         </button>
         <button className='btn-paginated' onClick={handleNextPage} disabled={isLastPage}>
             Siguiente

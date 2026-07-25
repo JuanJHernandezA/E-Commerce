@@ -1,0 +1,44 @@
+import { useState } from 'react';
+import CardCategory from '../components/products/CardCategory';
+import Loader from '../components/shared/Loader';
+import Pagination from '../components/shared/Pagination';
+import { useCategoriesWithProducts } from '../hooks';
+
+
+export const CategoriesPage = () => {
+  const [page,setPage]=useState(1);
+
+       const {categoriesFiltered, isLoadingFilterCategory} = useCategoriesWithProducts();
+
+       if(isLoadingFilterCategory) return <Loader />
+  return (
+
+      
+    <div className='grid gap-3  '>
+    {
+        (!categoriesFiltered?.[0]) ? (
+          <div className="col-span-2 flex items-center justify-center h-[500px]">
+
+          </div>
+        ):(
+          <>
+          <div className=" flex flex-col gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 gap-y-10 xl:grid-cols-4 ">
+                { categoriesFiltered.map(category=>(
+                  <CardCategory key={category.id_category} name_category={category.name_category} img={category.images?.[0] || ''}  description={category.description} id_category={category.id_category}/>
+                )) }
+            </div>
+            <Pagination totalItems={categoriesFiltered?.length | 0} page={page} setPage={setPage}  />
+          </div>
+          
+          </>
+        )
+      
+      }
+
+    </div>
+   
+  )
+}
+
+

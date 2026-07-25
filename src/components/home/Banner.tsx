@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Banner = () => {
@@ -11,16 +10,15 @@ const Banner = () => {
 
         <div className="relative z-10 flex flex-col items-center justify-center py-20 px-4 text-center lg:py-40 lg:px-8">
             <h1 className="text-4xl font-bold mb-4 lg:text-6xl">
-                Los mejores celulares del 2026
+                Los mejores productos del 2026
             </h1>
 
             <p className='text-ls mb-8 lg:text:2xl'>
-                Descubre las mejores ofertas exclusivas y las ultimas novedades en 
-                celulares
+                Descubre las mejores ofertas exclusivas y las ultimas novedades
             </p>
 
-            <Link to='/celulares' className='bg-gray-900 hover:bg-gray-950 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300  ease-in-out'>
-            Ver celulares</Link>
+            <Link to='/productos' className='bg-gray-900 hover:bg-gray-950 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300  ease-in-out'>
+            Ver productos</Link>
         </div>
       
     </div>

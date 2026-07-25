@@ -1,59 +1,366 @@
-import { supabase } from '../supabase/client'
+import { extractFilePath } from "../helpers";
+import type { BrandInput, CategoryInput, ProductInput } from "../interfaces";
+import { supabase } from "../supabase/client";
 
-export const getProducts = async ( )=>{
-    const {data: products, error} = await supabase.from('products').select('*, variants(*),brands(*),categories(*)').order('created_at' , {ascending:false});
 
-    if (error){
-        console.log(error.message);
-        throw new Error(error.message);
+export const getProducts = async (page: number, isAdmin: boolean = false) => {
+  const itemsPerPage = 10;
+  const from = (page - 1) * itemsPerPage;
+  const to = from + itemsPerPage - 1;
+
+  let query = supabase
+    .from("products")
+    .select("*, variants(*),brands(*),categories(*)", { count: "exact" })
+    .order("created_at", { ascending: false })
+    .range(from, to);
+  if (!isAdmin) {
+    query = query.eq("isActive", true);
+  }
+  const { data: products, error, count } = await query;
+
+  if (error) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+
+  return { products, count };
+};
+
+export const getFilteredProducts = async ({
+  page = 1,
+  brands = [],
+  categories = [],
+  isAdmin = false,
+}: {
+  page: number;
+  brands: string[];
+  categories: string[];
+  isAdmin: boolean;
+}) => {
+  const itemsPerPage = 10;
+  const from = (page - 1) * itemsPerPage;
+  const to = from + itemsPerPage - 1;
+
+  let query = supabase
+    .from("products")
+    .select(
+      "*, variants(*),brands!inner(name_brand,isActive),categories!inner(name_category,isActive)",
+      { count: "exact" },
+    )
+    .order("created_at", { ascending: false })
+    .range(from, to);
+
+  if (!isAdmin) {
+    query = query
+      .eq("isActive", true)
+      .eq("brands.isActive", true)
+      .eq("categories.isActive", true);
+  }
+  if (brands.length > 0) {
+    query = query.in("brands.name_brand", brands);
+  }
+
+  if (categories.length > 0) {
+    query = query.in("categories.name_category", categories);
+  }
+
+  const { data, error, count } = await query;
+
+  if (error) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+
+  return { data, count };
+};
+
+export const getRecentProducts = async () => {
+  const { data: products, error } = await supabase
+    .from("products")
+    .select("*, variants(*),brands(*),categories(*)")
+    .order("created_at", { ascending: false })
+    .eq("isActive", true)
+    .limit(4);
+  if (error) {
+    console.error(error.message);
+    throw new Error(error.message);
+  }
+
+  return products;
+};
+
+export const getRandomProducts = async () => {
+  const { data: products, error } = await supabase
+    .from("products")
+    .select("*, variants(*),brands(*),categories(*)")
+    .eq("isActive", true)
+    .limit(20);
+
+  if (error) {
+    console.error(error.message);
+    throw new Error(error.message);
+  }
+
+  const randomProducts = products.sort(() => 0.5 - Math.random()).slice(0, 4);
+
+  return randomProducts;
+};
+
+export const getProuctBySlug = async (slug: string) => {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*, variants(*)")
+    .eq("slug", slug)
+    .single();
+  if (error) {
+    console.error(error.message);
+    throw new Error(error.message);
+  }
+  return data;
+};
+
+export const searchProducts = async (searchTerm: string) => {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*, variants(*)")
+    .eq("isActive", true)
+    .ilike("name", `%${searchTerm}%`);
+
+  if (error) {
+    console.error(error.message);
+    throw new Error(error.message);
+  }
+  return data;
+};
+
+export const createProduct = async (productInput: ProductInput) => {
+  try {
+    const { data: product, error: productError } = await supabase
+      .from("products")
+      .insert({
+        name: productInput.name,
+        brand: productInput.brand,
+        category: productInput.category,
+        isActive: productInput.isActive,
+        slug: productInput.slug,
+        features: productInput.features,
+        description: productInput.description,
+        images: [],
+      })
+      .select()
+      .single();
+
+    if (productError) throw new Error(productError.message);
+
+    const folderName = product.id;
+    const uploadedImage = await Promise.all(
+      productInput.images.map(async (image) => {
+        const { data, error } = await supabase.storage
+          .from("product-images")
+          .upload(`${folderName}/${product.id}-${image.name}`, image);
+        if (error) throw new Error(error.message);
+
+        const imageUrl = `${supabase.storage.from("product-images").getPublicUrl(data.path).data.publicUrl}`;
+        return imageUrl;
+      }),
+    );
+
+    const { error: updatedError } = await supabase
+      .from("products")
+      .update({ images: uploadedImage })
+      .eq("id", product.id);
+    if (updatedError) throw new Error(updatedError.message);
+
+    const variants = productInput.variants.map((variant) => ({
+      product_id: product.id,
+      stock: variant.stock,
+      price: variant.price,
+      color: variant.color,
+      storage: variant.storage,
+      color_name: variant.colorName,
+    }));
+
+    const { error: variantsError } = await supabase
+      .from("variants")
+      .insert(variants);
+    if (variantsError) throw new Error(variantsError.message);
+
+    return product;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error inesperado, vuelva a intentarlo");
+  }
+};
+
+export const deleteProduct = async (productId: string) => {
+  const { error: variantsError } = await supabase
+    .from("variants")
+    .delete()
+    .eq("product_id", productId);
+
+  if (variantsError) throw new Error(variantsError.message);
+
+  const { data: productImages, error: productImagesError } = await supabase
+    .from("products")
+    .select("images")
+    .eq("id", productId)
+    .single();
+  if (productImagesError) throw new Error(productImagesError.message);
+
+  const { error: productDeleteError } = await supabase
+    .from("products")
+    .delete()
+    .eq("id", productId);
+  if (productDeleteError) throw new Error(productDeleteError.message);
+
+  if (productImages.images.length > 0) {
+    const folderName = productId;
+    const paths = productImages.images.map((image) => {
+      const fileName = image.split("/").pop();
+      return `${folderName}/${fileName}`;
+    });
+    const { error: storageError } = await supabase.storage
+      .from("product-images")
+      .remove(paths);
+    if (storageError) throw new Error(storageError.message);
+  }
+
+  return true;
+};
+
+export const updatedProduct = async (
+  productId: string,
+  productInput: ProductInput,
+) => {
+  const { data: currentProduct, error: currentProductError } = await supabase
+    .from("products")
+    .select("images")
+    .eq("id", productId)
+    .single();
+  if (currentProductError) throw new Error(currentProductError.message);
+
+  const existingImages = currentProduct.images || [];
+
+  const { data: updatedProduct, error: productError } = await supabase
+    .from("products")
+    .update({
+      name: productInput.name,
+      brand: productInput.brand,
+      category: productInput.category,
+      isActive: productInput.isActive,
+      slug: productInput.slug,
+      features: productInput.features,
+      description: productInput.description,
+    })
+    .eq("id", productId)
+    .select()
+    .single();
+  if (productError) throw new Error(productError.message);
+
+  const folderName = productId;
+  const validImages = productInput.images.filter(image => image) as [File | string];
+  const imagesToDelete = existingImages.filter(
+    (image) => !validImages.includes(image),
+  );
+
+  const filesToDelete = imagesToDelete.map((image) =>
+    extractFilePath(image, "product-images"),
+  );
+
+  if (filesToDelete.length > 0) {
+    const { error: deleteImagesError } = await supabase.storage
+      .from("product-images")
+      .remove(filesToDelete);
+    if (deleteImagesError) {
+      console.log(deleteImagesError);
+      throw new Error(deleteImagesError.message);
+    } else {
+      console.log(`Imagenes eliminadas: ${filesToDelete.join(", ")}`);
     }
+  }
 
-    return products;
-}
+  const uploadedImages = await Promise.all(
+    validImages.map(async (image) => {
+      if (image instanceof File) {
+        const { data, error } = await supabase.storage
+          .from("product-images")
+          .upload(`${folderName}/${productId}-${image.name}`, image);
+        if (error) throw new Error(error.message);
 
-export const getCategories = async () =>{
-    const {data: categories, error} = await supabase.from('categories').select('*');
+        const imageUrl = supabase.storage
+          .from("product-images")
+          .getPublicUrl(data.path).data.publicUrl;
+        return imageUrl;
+      } else if (typeof image === "string") {
+        return image;
+      } else {
+        throw new Error("Tipo de imagen no soportado.");
+      }
+    }),
+  );
 
-    if (error){
-        console.log(error.message);
-        throw new Error(error.message);
-    }
+  const { error: updateImagesError } = await supabase
+    .from("products")
+    .update({ images: uploadedImages })
+    .eq("id", productId);
+  if (updateImagesError) throw new Error(updateImagesError.message);
 
-    return categories;
-}
+  const existingVariants = productInput.variants.filter((v) => v.id);
+  const newVariants = productInput.variants.filter((v) => !v.id);
 
-export const getBrands = async () =>{
-    const {data:brands ,  error} = await supabase.from('brands').select('*');
+  if (existingVariants.length > 0) {
+    const { error: updateVariantsError } = await supabase
+      .from("variants")
+      .upsert(
+        existingVariants.map((variant) => ({
+          id: variant.id,
+          product_id: productId,
+          stock: variant.stock,
+          price: variant.price,
+          storage: variant.storage,
+          color: variant.color,
+          color_name: variant.colorName,
+        })),
+        { onConflict: "id" },
+      );
+    if (updateVariantsError) throw new Error(updateVariantsError.message);
+  }
 
-     if (error){
-        console.log(error.message);
-        throw new Error(error.message);
-    }
+  let newVariantIds: string[] = [];
 
-    return brands;
-}
+  if (newVariants.length > 0) {
+    const { data, error: insertVariantError } = await supabase
+      .from("variants")
+      .insert(
+        newVariants.map((variant) => ({
+          product_id: productId,
+          stock: variant.stock,
+          price: variant.price,
+          storage: variant.storage,
+          color: variant.color,
+          color_name: variant.colorName,
+        })),
+      )
+      .select();
+    if (insertVariantError) throw new Error(insertVariantError.message);
 
-export const getFilteredProducts = async ({page=1, brands = []}: {page:number, brands:string[]})=>{
-   
-    const itemsPerPage =10;
-    const from = (page-1)*itemsPerPage;
-    const to = from + itemsPerPage -1;
-    let query = supabase.from('products')
-                .select('*, variants(*),brands!inner(name_brand),categories(*)', {count:'exact'})
-                .order('created_at' , {ascending:false})
-                .range(from,to);
+    newVariantIds = data.map((variant) => variant.id);
+  }
 
-    if(brands.length >0 ){
-        query = query.in('brands.name_brand', brands);
-    }
+  const currentVariantIds = [
+    ...existingVariants.map((v) => v.id),
+    ...newVariantIds,
+  ];
 
-    const {data, error, count} = await query;
-
-    if (error){
-        console.log(error.message);
-        throw new Error(error.message);
-    }
- 
-    return {data,count};
-
-}
+  const { error: deleteVariantsError } = await supabase
+    .from("variants")
+    .delete()
+    .eq("product_id", productId)
+    .not(
+      "id",
+      "in",
+      `(${currentVariantIds ? currentVariantIds.join(",") : 0})`,
+    );
+  if (deleteVariantsError) throw new Error(deleteVariantsError.message);
+  return updatedProduct;
+};

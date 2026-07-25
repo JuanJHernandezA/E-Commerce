@@ -1,10 +1,24 @@
+import { FaBarsStaggered } from "react-icons/fa6"
+import { HiOutlineSearch, HiOutlineShoppingBag, HiOutlineUser } from "react-icons/hi"
+import { LuLoader } from "react-icons/lu"
 import { Link, NavLink } from "react-router-dom"
 import { navbarLinks } from "../../constants/links"
-import { HiOutlineSearch, HiOutlineShoppingBag} from "react-icons/hi"
-import { FaBarsStaggered } from "react-icons/fa6"
+import { useCustomer, useUser } from "../../hooks"
+import { useCartStore } from "../../store/cart.store"
+import { useGlobalStore } from "../../store/global.store"
 import { Logo } from "./Logo"
 
 export const Navbar = () =>{
+
+    const openSheet =useGlobalStore(state=>state.openSheet);
+    const totalItemsInCart = useCartStore(state=>state.totalItemsInCart)
+
+    const setActiveNavMobile=useGlobalStore(state=>state.setActiveNavMobile);
+
+    const {session,isLoading}=useUser();
+    const userId=session?.user.id;
+
+    const {data:customer} = useCustomer(userId!);
 
     return (< header className="bg-white text-black py-4 flex items-center justify-between px-5 border-b border-slate-200 lg:px-12 ">
         <Logo/>
@@ -19,26 +33,32 @@ export const Navbar = () =>{
            ))}
         </nav>
 
-        <div className="flex gap-5 items-center">
-            <button>
+        <div className="flex gap-5 items-center ">
+            <button onClick={()=>openSheet('search')} className="cursor-pointer">
                 <HiOutlineSearch size={25} />
             </button>
 
-            <div className="relative">
+            {
+                isLoading ?( <LuLoader className="animate-spin" size={60} />):session?(<div className="relative">
                 <Link to='/account' className="border-2 border-slate-700 w-9 h-9 rounded-full grid place-items-center text-lg font-bold">
-                R
+                {customer ? customer.full_name[0] : 'A'}
                 </Link>
-            </div>
+            </div>):(
+                <Link to='/login'>
+                <HiOutlineUser size={25}/>
+                </Link>
+            )
+            }
 
-            <button className="relative">
+            <button className="relative cursor-pointer" onClick={()=>openSheet('cart')}>
             <span className='absolute -bottom-3 -right-2 w-5 h-5 grid place-items-center bg-black text-white text-xs rounded-full '>
-                0
+                {totalItemsInCart}
             </span>
             <HiOutlineShoppingBag size={25} />
             </button>
         </div>
 
-        <button className="md:hidden">
+        <button className="md:hidden" onClick={()=> setActiveNavMobile(true)}>
             <FaBarsStaggered size={25} />
         </button>
     </header>)

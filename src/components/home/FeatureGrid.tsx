@@ -1,4 +1,3 @@
-import React from 'react'
 import { BiWorld } from 'react-icons/bi'
 import { FaHammer } from 'react-icons/fa6'
 import { HiMiniReceiptRefund } from 'react-icons/hi2'
