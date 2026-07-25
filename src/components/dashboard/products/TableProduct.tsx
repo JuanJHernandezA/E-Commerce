@@ -137,7 +137,7 @@ export const TableProduct = () => {
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500">Precio</span>
                 <span className="font-medium">
-                  {formatPrice(selectedVariant?.price)}
+                  {formatPrice(selectedVariant?.price ?? 0)}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
@@ -206,7 +206,7 @@ export const TableProduct = () => {
                   </td>
 
                   <CellTableProduct
-                    content={formatPrice(selectedVariant?.price)}
+                    content={formatPrice(selectedVariant?.price ?? 0)}
                   />
                   <CellTableProduct
                     content={(selectedVariant.stock || 0).toString()}
