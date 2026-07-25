@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { InputAddress } from "./InputAddress";
-import { useForm } from "react-hook-form";
-import { addressSchema, type AddressFormValues } from "../../lib/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ItemsCheckout from "./ItemsCheckout";
-import { useColombiaLocations, useCreateOrder } from "../../hooks";
-import { useCartStore } from "../../store/cart.store";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { ImSpinner } from "react-icons/im";
-import { SelectAddress } from "./SelectAddress";
 import { IoChevronBack } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { useColombiaLocations, useCreateOrder } from "../../hooks";
+import { addressSchema, type AddressFormValues } from "../../lib/validators";
+import { useCartStore } from "../../store/cart.store";
+import { InputAddress } from "./InputAddress";
+import ItemsCheckout from "./ItemsCheckout";
+import { SelectAddress } from "./SelectAddress";
 
 const FormCheckout = () => {
   const [receipt, setReceipt] = useState<File | null>(null);

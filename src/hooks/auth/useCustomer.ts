@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getSession, getUserData } from "../../actions";
+import { getUserData } from "../../actions";
 
 
 export const useCustomer =(userId:string)=>{

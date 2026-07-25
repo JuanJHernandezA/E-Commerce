@@ -30,7 +30,7 @@ export const BrandsPage = () => {
           <div className=" flex flex-col gap-12">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 gap-y-10 xl:grid-cols-4 ">
                 { brandsFiltered.map(brand=>(
-                  <CardBrand key={brand.id_brand} name_brand={brand.name_brand} img={brand.images?.[0] || ''}  description={brand.description} id_brand={brand.id_brand}/>
+                  <CardBrand key={brand.id_brand} name_brand={brand.name_brand} img={brand.images?.[0] || ''} />
                 )) }
             </div>
             <Pagination totalItems={brandsFiltered?.length | 0} page={page} setPage={setPage}  />

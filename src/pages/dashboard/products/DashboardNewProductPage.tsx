@@ -1,4 +1,3 @@
-import React from 'react'
 import { FormProduct } from '../../../components/dashboard'
 
 export const DashboardNewProductPage = () => {

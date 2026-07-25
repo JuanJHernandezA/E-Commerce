@@ -1,6 +1,5 @@
-import React from 'react'
-import { useCartStore } from '../../store/cart.store'
 import { formatPrice } from '../../helpers';
+import { useCartStore } from '../../store/cart.store';
 
 const ItemsCheckout = () => {
 const cartItems=useCartStore(state=>state.items);

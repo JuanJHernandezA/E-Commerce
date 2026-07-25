@@ -27,7 +27,6 @@ export const FormBrand = ({ titleForm }: Props) => {
     formState: { errors },
     setValue,
     watch,
-    control,
   } = useForm<BrandFormValues>({
     resolver: zodResolver(brandSchema),
   });

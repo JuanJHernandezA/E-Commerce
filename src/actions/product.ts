@@ -1,5 +1,5 @@
 import { extractFilePath } from "../helpers";
-import type { BrandInput, CategoryInput, ProductInput } from "../interfaces";
+import type { ProductInput } from "../interfaces";
 import { supabase } from "../supabase/client";
 
 

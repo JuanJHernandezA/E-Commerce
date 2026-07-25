@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import type { Json } from '../../supabase/supabase';
 
 interface Props {
-    id_category: number;
+ 
     img:string;
-     name_category:string; description:Json;
+     name_category:string; 
 }
 
-const CardCategory = ({id_category, img,name_category, description}:Props) => {
+const CardCategory = ({img,name_category}:Props) => {
   return (
 
   <div className="group relative flex flex-col gap-4 rounded-2xl bg-white p-3 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">

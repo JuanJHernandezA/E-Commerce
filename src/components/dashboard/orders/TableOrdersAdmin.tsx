@@ -27,7 +27,7 @@ export const TableOrdersAdmin = ({ orders }: Props) => {
         <thead className="border-b gorder-gray-200 pb-3">
           <tr className="text-sm font-bold">
             {tableHeaders.map((header, index) => (
-              <th className="h-12 px-4 text-left">{header}</th>
+              <th className="h-12 px-4 text-left" key={index}>{header}</th>
             ))}
           </tr>
         </thead>
