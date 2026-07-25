@@ -115,8 +115,9 @@ export const FormProduct = ({ titleForm }: Props) => {
     <div className="flex flex-col gap-6 relative">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
+          <div className="m-2 p-1.5 rounded-md border md:hidden border-slate-200 transition-all group hover:scale-105"> </div>
           <button
-            className="bg-white p-1.5 rounded-md shadow-sm border border-slate-200 transition-all group hover:scale-105"
+            className="bg-white p-1.5 rounded-md shadow-sm border border-slate-200 transition-all hidden md:block group hover:scale-105"
             onClick={() => navigate(-1)}
           >
             <IoIosArrowBack
@@ -124,7 +125,7 @@ export const FormProduct = ({ titleForm }: Props) => {
               className="transition-all group-hover:scale-125"
             />
           </button>
-          <h2 className="font-bold tracking-tight text-2l capitalize">
+          <h2 className="font-bold  tracking-tight text-2l capitalize hidden md:block">
             {titleForm}
           </h2>
         </div>
