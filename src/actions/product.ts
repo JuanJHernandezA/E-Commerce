@@ -258,14 +258,20 @@ export const updatedProduct = async (
   if (productError) throw new Error(productError.message);
 
   const folderName = productId;
-  const validImages = productInput.images.filter(image => image) as [File | string];
+  const validImages = productInput.images.filter(Boolean) as Array<File | string>;
   const imagesToDelete = existingImages.filter(
     (image) => !validImages.includes(image),
   );
 
-  const filesToDelete = imagesToDelete.map((image) =>
-    extractFilePath(image, "product-images"),
-  );
+  const filesToDelete = imagesToDelete
+    .map((image) => {
+      try {
+        return extractFilePath(image, "product-images");
+      } catch {
+        return null;
+      }
+    })
+    .filter((path): path is string => Boolean(path));
 
   if (filesToDelete.length > 0) {
     const { error: deleteImagesError } = await supabase.storage

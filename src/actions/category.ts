@@ -179,14 +179,20 @@ export const updatedCategory = async (
   if (categoryError) throw new Error(categoryError.message);
 
   const folderName = id_category;
-  const validImages = categoryInput.images.filter(image => image) as [File | string];
+  const validImages = categoryInput.images.filter(Boolean) as Array<File | string>;
   const imagesToDelete = existingImages.filter(
     (image) => !validImages.includes(image),
   );
 
-  const filesToDelete = imagesToDelete.map((image) =>
-    extractFilePath(image, "category_images"),
-  );
+  const filesToDelete = imagesToDelete
+    .map((image) => {
+      try {
+        return extractFilePath(image, "category_images");
+      } catch {
+        return null;
+      }
+    })
+    .filter((path): path is string => Boolean(path));
 
   if (filesToDelete.length > 0) {
     const { error: deleteImagesError } = await supabase.storage

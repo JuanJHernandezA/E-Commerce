@@ -55,9 +55,7 @@ const UploaderImages = <T extends FieldValues>({
 
       setImages(existingImages);
     }
-  }, [formImages]); // Reacciona cada vez que formImages cambie desde la API
-
-  // Limpieza de memoria (URLs creadas con createObjectURL)
+  }, [formImages]); 
   useEffect(() => {
     return () => {
       imagesRef.current.forEach((img) => {
