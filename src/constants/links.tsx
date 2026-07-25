@@ -23,11 +23,11 @@ export const navbarLinks = [
         href:'/marcas'
 
     },
-    {
-        id: 5,
-        title:'Sobre nosotros',
-        href: '/sobre-nosotros'
-    }
+    // {
+    //     id: 5,
+    //     title:'Sobre nosotros',
+    //     href: '/sobre-nosotros'
+    // }
 ]
 
 export const socialLinks = [
