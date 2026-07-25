@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { SideBar } from "../components/dashboard";
-import {  useUser } from "../hooks";
 import { getSession, getUserRole } from "../actions";
+import { SideBar } from "../components/dashboard";
 import Loader from "../components/shared/Loader";
+import { useUser } from "../hooks";
 import { supabase } from "../supabase/client";
 
 export const DashboardLayout = () => {
