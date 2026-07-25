@@ -178,11 +178,10 @@ export const SelectCategoryCombobox = ({
             )}
           </ul>
 
-          {/* Botón para crear nueva marca */}
         </div>
       )}
 
-      {/* Mensaje de Error de Zod */}
+
       {errorMessage && (
         <p className="text-red-500 text-xs mt-1">{errorMessage}</p>
       )}

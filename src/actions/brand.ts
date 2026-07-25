@@ -180,14 +180,20 @@ export const updatedBrand = async (
   if (brandError) throw new Error(brandError.message);
 
   const folderName = id_brand;
-  const validImages = brandInput.images.filter(image => image)  as [File | string];
+  const validImages = brandInput.images.filter(Boolean) as Array<File | string>;
   const imagesToDelete = existingImages.filter(
     (image) => !validImages.includes(image),
   );
 
-  const filesToDelete = imagesToDelete.map((image) =>
-    extractFilePath(image, "brand_images"),
-  );
+  const filesToDelete = imagesToDelete
+    .map((image) => {
+      try {
+        return extractFilePath(image, "brand_images");
+      } catch {
+        return null;
+      }
+    })
+    .filter((path): path is string => Boolean(path));
 
   if (filesToDelete.length > 0) {
     const { error: deleteImagesError } = await supabase.storage
