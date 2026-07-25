@@ -1,8 +1,6 @@
-import React from "react";
-import { th, tr } from "zod/v4/locales";
-import type { OrderItemSingle } from "../../interfaces";
-import { formatDateLong, formatPrice, getStatus } from "../../helpers";
 import { useNavigate } from "react-router-dom";
+import { formatDateLong, formatPrice, getStatus } from "../../helpers";
+import type { OrderItemSingle } from "../../interfaces";
 
 interface Props {
   orders: OrderItemSingle[];

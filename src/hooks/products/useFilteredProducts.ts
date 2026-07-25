@@ -1,12 +1,15 @@
 import { useQuery } from "@tanstack/react-query"
 import { getBrandsWithProducts, getCategoriesWithProducts, getFilteredProducts } from "../../actions"
-import type { Brand, Category } from "../../interfaces"
+
+import { useAdminAuth } from "../auth/useAdminAuth"
 
 export const useFilteredProducts = ({page, brands, categories}: {page:number, brands:string[] , categories: string[] })=>{
+    const { isAdmin, isLoading: isLoadingAuth } = useAdminAuth()
     const {data, isLoading }= useQuery (
-        {queryKey: ['filteredProducts', page, brands, categories],
-            queryFn: () => getFilteredProducts({page, brands, categories}),
+        {queryKey: ['filteredProducts', page, brands, categories, isAdmin],
+            queryFn: () => getFilteredProducts({page, brands, categories, isAdmin}),
             retry: false,
+            enabled: !isLoadingAuth,
         }
     )
 
@@ -14,10 +17,12 @@ export const useFilteredProducts = ({page, brands, categories}: {page:number, br
 }
 
 export const useBrandsWithProducts = ()=>{
+    const { isAdmin, isLoading: isLoadingAuth } = useAdminAuth()
     const {data, isLoading }= useQuery (
-        {queryKey: ['brandsWithProducts'],
-            queryFn: () => getBrandsWithProducts(),
+        {queryKey: ['brandsWithProducts',isAdmin],
+            queryFn: () => getBrandsWithProducts(isAdmin),
             retry: false,
+            enabled: !isLoadingAuth,
         }
     )
 
@@ -25,12 +30,15 @@ export const useBrandsWithProducts = ()=>{
 }
 
 export const useCategoriesWithProducts = ()=>{
+    const { isAdmin, isLoading: isLoadingAuth } = useAdminAuth()
     const {data, isLoading }= useQuery (
-        {queryKey: ['categoriesWithProducts'],
-            queryFn: () => getCategoriesWithProducts(),
+        {queryKey: ['categoriesWithProducts',isAdmin],
+            queryFn: () => getCategoriesWithProducts(isAdmin),
             retry: false,
+            enabled: !isLoadingAuth,
         }
     )
+
 
     return {categoriesFiltered:data, isLoadingFilterCategory:isLoading}
 }

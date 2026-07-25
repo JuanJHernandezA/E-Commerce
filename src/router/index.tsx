@@ -2,12 +2,10 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import { RootLayout } from "../layouts/RootLayout";
 import {
   HomePage,
-  CellPhonesPage,
   AboutPage,
   BrandsPage,
   CategoriesPage,
   OrderUserPage,
-  CellPhonePage,
   LoginPage,
   RegisterPage,
   OrdersUserPage,
@@ -15,10 +13,19 @@ import {
   ThankyouPage,
   DashboardCategoriesPage,
   DashboardBrandsPage,
-  DashboardProductsPage
+  DashboardProductsPage,
+  ProductPage,
+  ProductsPage,
+  DashboardBrandIdPage,
+  DashboardOrdersPage,
+  DashboardOrderPage,
+  DashboardNewProductPage,
+  DashboardNewBrandPage,
+  DashboardNewCategoryPage,
+  DashboardProductSlugPage,
+  DashboardCategoryIdPage
 } from "../pages";
 import ClientLayout from "../layouts/ClientLayout";
-import { Children } from "react";
 import  { DashboardLayout } from "../layouts/DashboardLayout";
 
 
@@ -32,16 +39,16 @@ export const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "celulares",
-        element: <CellPhonesPage />,
+        path: "productos",
+        element: <ProductsPage />,
       },
       {
         path: "marcas",
         element: <BrandsPage />,
       },
       {
-        path: "celulares/:slug",
-        element: <CellPhonePage />,
+        path: "productos/:slug",
+        element: <ProductPage />,
       },
       {
         path: "categorias",
@@ -106,6 +113,38 @@ export const router = createBrowserRouter([
          {
             path:'marcas',
             element: <DashboardBrandsPage />
+        },
+        {
+          path:'productos/new',
+          element: <DashboardNewProductPage />
+        },
+        {
+          path:'categorias/new',
+          element: <DashboardNewCategoryPage />
+        },
+        {
+          path:'marcas/new',
+          element: <DashboardNewBrandPage />
+        },
+        {
+          path:'productos/editar/:slug',
+          element: <DashboardProductSlugPage />
+        },
+        {
+          path:'categorias/editar/:id_category',
+          element: <DashboardCategoryIdPage />
+        },
+        {
+          path:'marcas/editar/:id_brand',
+          element: <DashboardBrandIdPage />
+        },
+        {
+          path:'ordenes',
+          element:<DashboardOrdersPage />
+        },
+        {
+          path:'ordenes/:id',
+          element:<DashboardOrderPage />
         }
     ]
   }

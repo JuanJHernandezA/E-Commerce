@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useCartStore } from "../store/cart.store";
 import FormCheckout from "../components/checkout/FormCheckout";
 import ItemsCheckout from "../components/checkout/ItemsCheckout";
-import { useUser } from "../hooks";
 import Loader from "../components/shared/Loader";
+import { useUser } from "../hooks";
+import { useCartStore } from "../store/cart.store";
 import { supabase } from "../supabase/client";
 
 export const CheckoutPage = () => {

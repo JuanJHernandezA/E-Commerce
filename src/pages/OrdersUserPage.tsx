@@ -1,7 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import Loader from '../components/shared/Loader';
+import { Link } from 'react-router-dom';
 import { TableOrders } from '../components/orders/TableOrders';
+import Loader from '../components/shared/Loader';
 import { useOrders } from '../hooks';
 
 export const OrdersUserPage = () => {

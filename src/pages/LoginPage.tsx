@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { LuLoader } from 'react-icons/lu';
-import { Link, Navigate } from 'react-router-dom'
-import { useLogin, useUser } from '../hooks'
+import { Link, Navigate } from 'react-router-dom';
 import Loader from '../components/shared/Loader';
+import { useLogin, useUser } from '../hooks';
 export const LoginPage = () => {
 
   const [email, setEmail] =useState('customer@gmail.com');
@@ -14,6 +14,11 @@ export const LoginPage = () => {
     e.preventDefault();
     mutate({email,password})
   }
+  const loginAs = (userEmail: string, userPass: string) => {
+    setEmail(userEmail);
+    setPassword(userPass);
+    mutate({ email: userEmail, password: userPass });
+  };
   if (isLoading) return <Loader />
 
   if (session) return <Navigate to='/' />
@@ -26,6 +31,30 @@ export const LoginPage = () => {
       <p className="text-sm font-medium">
         ¡Qué bueno tenerte de vuelta!
       </p>
+     <div className="w-fit mx-auto flex items-center gap-2 bg-slate-50 border border-slate-200/80 rounded-full px-3 py-1 mb-2">
+  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+    Demo:
+  </span>
+  <div className="flex items-center gap-1.5">
+    <button
+      type="button"
+      disabled={isPending}
+      onClick={() => loginAs('admin@gmail.com', 'Admin1*')}
+      className="py-1 px-2.5 rounded-full border border-slate-200 bg-white text-slate-700 font-medium text-[11px] hover:bg-black hover:text-white hover:border-black transition-all cursor-pointer shadow-2xs disabled:opacity-50"
+    >
+      Admin
+    </button>
+
+    <button
+      type="button"
+      disabled={isPending}
+      onClick={() => loginAs('customer@gmail.com', 'Customer1*')}
+      className="py-1 px-2.5 rounded-full border border-slate-200 bg-white text-slate-700 font-medium text-[11px] hover:bg-black hover:text-white hover:border-black transition-all cursor-pointer shadow-2xs disabled:opacity-50"
+    >
+      Cliente
+    </button>
+  </div>
+</div>
 
       {
         isPending ? (

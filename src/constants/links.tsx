@@ -10,8 +10,8 @@ export const navbarLinks = [
     },
     {
         id: 2, 
-        title:'Celulares',
-        href: '/celulares'
+        title:'Productos',
+        href: '/productos'
     },
     {
         id: 3,
@@ -51,13 +51,13 @@ export const socialLinks = [
             icon:<FaBoxOpen size={25}/>
 
         },
-        {id:1,
+        {id:2,
             title:'Categorías',
             href:'/dashboard/categorias',
             icon:<BiCategory size={25}/>
 
         },
-        {id:1,
+        {id:3,
             title:'Marcas',
             href:'/dashboard/marcas',
             icon:<TbBrandAppgallery  size={25}/>

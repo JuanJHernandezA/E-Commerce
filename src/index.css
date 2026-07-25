@@ -46,3 +46,11 @@
 .animate-slide-in-left {
   animation: slide-in-left 0.3s ease-out;
 }
+
+.btn-primary {
+  @apply bg-black text-white py-2 px-3 text-sm font-medium rounded-md
+}
+
+.btn-secondary-outline{
+  @apply border border-slate-400 text-slate-600 py-2 px-3 text-sm font-medium rounded-md
+}

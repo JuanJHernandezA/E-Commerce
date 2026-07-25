@@ -10,13 +10,16 @@ interface Props {
     name:keyof AddressFormValues;
     className?:string;
     placeholder:string;
+    required?: boolean;
 }
 
-export const InputAddress = ({register,errors,name,className,placeholder}:Props) => {
+export const InputAddress = ({register,errors,name,className,placeholder, required}:Props) => {
   return (
     <>
     <div className={`border  rounded-md overflow-hidden py-2 ${errors[name] ? 'border-red-500' :'border-slate-200'} ${className}` }>
-      <input type='text' className='w-full px-3 py-1 text-sm focus:outline-none' placeholder={placeholder} {...register(name)} />
+      
+      <input type='text' className='w-full px-3 py-1 text-sm focus:outline-none' placeholder={placeholder} {...register(name)} required={required} />
+      
 
     </div>
 

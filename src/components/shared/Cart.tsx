@@ -1,11 +1,10 @@
-import React from 'react'
-import { useGlobalStore } from '../../store/global.store';
-import { IoMdClose } from 'react-icons/io';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
+import { IoMdClose } from 'react-icons/io';
 import { RiSecurePaymentLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
+import { useCartStore } from '../../store/cart.store';
+import { useGlobalStore } from '../../store/global.store';
 import CartItem from './CartItem';
-import {useCartStore} from '../../store/cart.store'
 
 const Cart = () => {
 

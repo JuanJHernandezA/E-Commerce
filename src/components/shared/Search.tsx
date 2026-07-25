@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import {HiOutlineSearch} from 'react-icons/hi'
-import {IoMdClose} from 'react-icons/io'
-import { useGlobalStore } from '../../store/global.store';
-import { formatPrice } from '../../helpers';
-import { searchProducts } from '../../actions';
-import type { Product } from '../../interfaces';
+import React, { useState } from 'react';
+import { HiOutlineSearch } from 'react-icons/hi';
+import { IoMdClose } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
+import { searchProducts } from '../../actions';
+import { formatPrice } from '../../helpers';
+import type { Product } from '../../interfaces';
+import { useGlobalStore } from '../../store/global.store';
 
 const Search = () => {
 

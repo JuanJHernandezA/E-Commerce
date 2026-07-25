@@ -3,13 +3,14 @@ import FeatureGrid from '../components/home/FeatureGrid'
 import ProductGrid from '../components/home/ProductGrid'
 import Brands from '../components/home/Brands'
 import { prepareProducts } from '../helpers';
-import {useHomeProducts, useProducts} from '../hooks';
+import {useHomeProducts,  useProducts} from '../hooks';
 import ProductGridSkeleton from '../components/skeletons/ProductGridSkeleton';
 
 export const HomePage = () => {
     const {recentProducts,popularProducts, isLoading}= useHomeProducts();
     const preparedRecentProducts = prepareProducts(recentProducts);
     const preparedPopularProducts = prepareProducts(popularProducts);
+
   return (
     <div >
       <FeatureGrid />

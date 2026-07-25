@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabase/client'
 interface IAuthLogin {
     email: string,
@@ -74,10 +75,12 @@ export const signIn = async ({email,password}:IAuthLogin)=>{
 
 export const signOut = async ()=>{
     const {error} =await supabase.auth.signOut();
+
     if(error){
                 console.log(error)
                 throw new Error("Error al cerrar sesión")
             }
+
 }
 
 export const getSession = async ()=>{
@@ -97,4 +100,15 @@ if(error){
             }
 
             return data;
+}
+export const getUserRole = async (userId:string)=>{
+    const {data,error} = await supabase.from('user_roles').select('role').eq('user_id',userId).single();
+  
+    if (error ) {
+        console.log(error)
+     throw new Error("Error al obtener el rol del usuario")
+
+  }
+
+  return data.role;
 }

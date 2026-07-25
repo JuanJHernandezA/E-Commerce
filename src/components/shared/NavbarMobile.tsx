@@ -1,8 +1,7 @@
-import React from 'react'
-import { useGlobalStore } from '../../store/global.store'
-import {IoMdClose} from 'react-icons/io'
+import { IoMdClose } from 'react-icons/io'
 import { Link, NavLink } from 'react-router-dom'
 import { navbarLinks } from '../../constants/links'
+import { useGlobalStore } from '../../store/global.store'
 
 const NavbarMobile = () => {
     const setActiveNavMobile = useGlobalStore(
@@ -17,12 +16,18 @@ const NavbarMobile = () => {
 
         <div className="flex flex-col gap-20">
             <Link to='/' className='text-4xl font-bold tracking-tighter transition-all' onClick={()=>setActiveNavMobile(false)}>
-            <p>
-                Tech
-                <span className="text-cyan-600">
-                    Full
-                </span>
-            </p>
+            <p className=" text-3xl text-center  font-black tracking-tight select-none">
+    {/* "Tech" en tono oscuro con alto contraste para fondo blanco */}
+    <span className="text-slate-900">Tech</span>
+    
+    {/* "Full" con tu gradiente exacto */}
+    <span 
+      className="bg-clip-text text-transparent"
+      style={{ backgroundImage: "linear-gradient(135deg, #38BDF8 0%, #2563EB 50%, #1E3A8A 100%)" }}
+    >
+      Full
+    </span>
+  </p>
             </Link>
 
             <nav className="flex flex-col items-center gap-5">

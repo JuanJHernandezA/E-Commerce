@@ -4,9 +4,12 @@ import { useForm } from "react-hook-form";
 import { addressSchema, type AddressFormValues } from "../../lib/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ItemsCheckout from "./ItemsCheckout";
-import { useCreateOrder } from "../../hooks";
+import { useColombiaLocations, useCreateOrder } from "../../hooks";
 import { useCartStore } from "../../store/cart.store";
 import { ImSpinner } from "react-icons/im";
+import { SelectAddress } from "./SelectAddress";
+import { IoChevronBack } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const FormCheckout = () => {
   const [receipt, setReceipt] = useState<File | null>(null);
@@ -14,11 +17,15 @@ const FormCheckout = () => {
   const {
     register,
     setValue,
+    watch,
     formState: { errors },
     handleSubmit,
   } = useForm<AddressFormValues>({
     resolver: zodResolver(addressSchema),
   });
+
+  const selectedDepartment = watch("state");
+  const { departments, cities, loadingDepartments, loadingCities } = useColombiaLocations(selectedDepartment);
 
   const { mutate: createOrder, isPending } = useCreateOrder();
   const cleanCart = useCartStore((state) => state.cleanCart);
@@ -75,17 +82,29 @@ const FormCheckout = () => {
       shouldValidate: true,
     });
   };
+  const navigate = useNavigate()
 
   return (
     <div>
       <form onSubmit={onSubmit} className="flex flex-col gap-6">
         <div className="flex flex-col gap-3">
-          <h3 className="text-lg font-semibol tracking-normal">Entrega</h3>
+          <div className="flex items-center gap-3 mb-1">
+    <button
+      type="button"
+      onClick={() => navigate(-1)}
+      className="flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 text-stone-700 hover:bg-stone-100 hover:border-slate-300 transition-all cursor-pointer shrink-0"
+      aria-label="Volver atrás"
+    >
+      <IoChevronBack size={18} />
+    </button>
+    <h3 className="text-lg font-semibold tracking-normal">Entrega</h3>
+  </div>
           <InputAddress
             register={register}
             errors={errors}
             name="addressLine1"
             placeholder="Dirección principal"
+            required
           />
           <InputAddress
             register={register}
@@ -93,17 +112,31 @@ const FormCheckout = () => {
             name="addressLine2"
             placeholder="Dirección adicional (Opcional)"
           />
-          <InputAddress
+         <SelectAddress
             register={register}
             errors={errors}
             name="state"
-            placeholder="Departamento"
+            placeholder="Selecciona un departamento"
+            options={departments}
+            isLoading={loadingDepartments}
+            onChange={() => setValue("city", "")}
+            required
           />
-          <InputAddress
+
+          {/* Select de Ciudad dependiente */}
+          <SelectAddress
             register={register}
             errors={errors}
             name="city"
-            placeholder="Ciudad"
+            placeholder={
+              !selectedDepartment
+                ? "Selecciona un departamento primero"
+                : "Selecciona una ciudad"
+            }
+            options={cities}
+            isLoading={loadingCities}
+            disabled={!selectedDepartment || loadingCities}
+            required
           />
           <InputAddress
             register={register}
@@ -145,7 +178,14 @@ const FormCheckout = () => {
             </p>
           </div>
           <div className="flex flex-col gap-3">
+            <div className="flex justify-between">
             <p className="text-sm font-medium mt-2">Comprobante de pago</p>
+             <span
+            className={"text-red-500 text-sm mt-2 mr-2 font-bold self-end"}
+          >
+            *
+          </span>
+          </div>
 
             {!preview ? (
               <label className="border-2 border-dashed border-slate-300 rounded-md p-6 flex flex-col items-center justify-center cursor-pointer hover:border-black transition">
@@ -160,6 +200,7 @@ const FormCheckout = () => {
                   accept="image/*"
                   className="hidden"
                   onChange={handleReceiptChange}
+                  required
                 />
               </label>
             ) : (

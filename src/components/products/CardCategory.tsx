@@ -1,38 +1,51 @@
 
 import { FaEye } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
+import type { Json } from '../../supabase/supabase';
 
 interface Props {
     id_category: number;
     img:string;
-     name_category:string; description: string | null;
+     name_category:string; description:Json;
 }
 
 const CardCategory = ({id_category, img,name_category, description}:Props) => {
   return (
-   <div className="flex flex-col gap-6 relative">
-      <Link to={`/celulares?category=${name_category}`} className='group relative flex overflow-hidden'>
-        <div className="flex h-[350px] w-full items-center justify-center py-2 lg:h-[250px] " >
-            <img src={img} alt={name_category} className="object-contain rounded-3xl h-[200px] w-[200px] " />
-            
-        </div>
-        <button className='bg-white border border-slate-200 absolute w-full bottom-0 py-3 rounded-3xl flex items-center justify-center 
-        gap-1 text-sm font-medium hover:bg-stone-100 translate-y-[100%] transition-all duration-300 group-hover:translate-y-0'>
-            <FaEye />
-            Ver productos
-        </button>
-      </Link>
 
-      <div className="flex flex-col gap-1 items-center">
-        <p className='text-[15px] font-medium'>
-            {name_category}
-        </p>
-        
+  <div className="group relative flex flex-col gap-4 rounded-2xl bg-white p-3 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
 
+  <div className="relative overflow-hidden rounded-xl bg-slate-50">
+    <Link to={`/productos?category=${name_category}`} className="block">
+      <div className="flex h-[280px] sm:h-[300px] lg:h-[240px] w-full items-center justify-center p-4">
+        <img
+          src={img}
+          alt={name_category}
+          className="h-[200px] w-[200px] object-contain transition-transform duration-500 group-hover:scale-105"
+        />
       </div>
+    </Link>
 
-      
-    </div>
+
+    <Link
+      to={`/productos?category=${name_category}`}
+      className="absolute bottom-2 left-2 right-2 flex items-center justify-center gap-2 rounded-full bg-white/95 backdrop-blur-sm border border-slate-200 py-2.5 text-xs font-semibold text-slate-800 shadow-sm hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all duration-300 md:translate-y-[120%] md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 cursor-pointer"
+    >
+      <FaEye size={15} />
+      Ver productos
+    </Link>
+  </div>
+
+  <div className="flex flex-col gap-1 items-center text-center px-1 pb-1">
+    <Link 
+      to={`/productos?category=${name_category}`} 
+      className="hover:text-cyan-600 transition-colors line-clamp-1"
+    >
+      <h3 className="text-base font-semibold text-slate-800" title={name_category}>
+        {name_category}
+      </h3>
+    </Link>
+  </div>
+</div>
   )
 }
 

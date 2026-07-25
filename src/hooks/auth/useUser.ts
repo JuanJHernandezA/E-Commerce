@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getSession } from "../../actions";
+import { getSession} from "../../actions";
 
 
 export const useUser =()=>{
@@ -7,3 +7,5 @@ export const useUser =()=>{
 
     return {session:data?.session,isLoading}
 }
+
+

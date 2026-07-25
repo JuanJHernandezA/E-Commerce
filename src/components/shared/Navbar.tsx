@@ -1,12 +1,12 @@
-import { Link, NavLink, type Session } from "react-router-dom"
-import { navbarLinks } from "../../constants/links"
-import { HiOutlineSearch, HiOutlineShoppingBag, HiOutlineUser} from "react-icons/hi"
 import { FaBarsStaggered } from "react-icons/fa6"
-import { Logo } from "./Logo"
-import { useGlobalStore } from "../../store/global.store"
-import { useCartStore } from "../../store/cart.store"
-import { useCustomer, useUser } from "../../hooks"
+import { HiOutlineSearch, HiOutlineShoppingBag, HiOutlineUser } from "react-icons/hi"
 import { LuLoader } from "react-icons/lu"
+import { Link, NavLink } from "react-router-dom"
+import { navbarLinks } from "../../constants/links"
+import { useCustomer, useUser } from "../../hooks"
+import { useCartStore } from "../../store/cart.store"
+import { useGlobalStore } from "../../store/global.store"
+import { Logo } from "./Logo"
 
 export const Navbar = () =>{
 
@@ -33,15 +33,15 @@ export const Navbar = () =>{
            ))}
         </nav>
 
-        <div className="flex gap-5 items-center">
-            <button onClick={()=>openSheet('search')}>
+        <div className="flex gap-5 items-center ">
+            <button onClick={()=>openSheet('search')} className="cursor-pointer">
                 <HiOutlineSearch size={25} />
             </button>
 
             {
                 isLoading ?( <LuLoader className="animate-spin" size={60} />):session?(<div className="relative">
                 <Link to='/account' className="border-2 border-slate-700 w-9 h-9 rounded-full grid place-items-center text-lg font-bold">
-                {customer && customer.full_name[0]}
+                {customer ? customer.full_name[0] : 'A'}
                 </Link>
             </div>):(
                 <Link to='/login'>
@@ -50,7 +50,7 @@ export const Navbar = () =>{
             )
             }
 
-            <button className="relative" onClick={()=>openSheet('cart')}>
+            <button className="relative cursor-pointer" onClick={()=>openSheet('cart')}>
             <span className='absolute -bottom-3 -right-2 w-5 h-5 grid place-items-center bg-black text-white text-xs rounded-full '>
                 {totalItemsInCart}
             </span>

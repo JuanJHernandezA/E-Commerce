@@ -1,11 +1,11 @@
 
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useOrder, useUser } from "../hooks";
-import Loader from "../components/shared/Loader";
-import { CiCircleCheck } from "react-icons/ci";
-import { formatPrice } from "../helpers";
-import Separator from "../components/shared/Separator";
 import { useEffect } from "react";
+import { CiCircleCheck } from "react-icons/ci";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Loader from "../components/shared/Loader";
+import Separator from "../components/shared/Separator";
+import { formatPrice } from "../helpers";
+import { useOrder, useUser } from "../hooks";
 import { supabase } from "../supabase/client";
 
 export const ThankyouPage = () => {
@@ -138,7 +138,7 @@ export const ThankyouPage = () => {
             ¿Necesitas ayuda? Ponte en contacto con nosotros
           </p>
 
-          <Link to='/celulares' className="text-white bg-black py-4 text-sm rounded-md px-5 tracking-tight font-semibold">
+          <Link to='/productos' className="text-white bg-black py-4 text-sm rounded-md px-5 tracking-tight font-semibold">
           Seguir comprando</Link>
 
         </div>

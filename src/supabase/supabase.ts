@@ -86,23 +86,26 @@ export type Database = {
       brands: {
         Row: {
           created_at: string
-          description: string | null
+          description: Json
           id_brand: number
           images: string[]
+          isActive: boolean
           name_brand: string
         }
         Insert: {
           created_at?: string
-          description?: string | null
+          description: Json
           id_brand?: number
           images: string[]
+          isActive?: boolean
           name_brand: string
         }
         Update: {
           created_at?: string
-          description?: string | null
+          description?: Json
           id_brand?: number
           images?: string[]
+          isActive?: boolean
           name_brand?: string
         }
         Relationships: []
@@ -110,23 +113,26 @@ export type Database = {
       categories: {
         Row: {
           created_at: string
-          description: string | null
+          description: Json
           id_category: number
           images: string[]
+          isActive: boolean
           name_category: string
         }
         Insert: {
           created_at?: string
-          description?: string | null
+          description: Json
           id_category?: number
           images: string[]
+          isActive?: boolean
           name_category: string
         }
         Update: {
           created_at?: string
-          description?: string | null
+          description?: Json
           id_category?: number
           images?: string[]
+          isActive?: boolean
           name_category?: string
         }
         Relationships: []
@@ -206,7 +212,7 @@ export type Database = {
           created_at: string
           customer_id: string
           id: number
-          receipt_url: string[] | null
+          receipt_url: string[]
           status: string
           total_amount: number
         }
@@ -215,7 +221,7 @@ export type Database = {
           created_at?: string
           customer_id: string
           id?: number
-          receipt_url?: string[] | null
+          receipt_url: string[]
           status?: string
           total_amount: number
         }
@@ -224,7 +230,7 @@ export type Database = {
           created_at?: string
           customer_id?: string
           id?: number
-          receipt_url?: string[] | null
+          receipt_url?: string[]
           status?: string
           total_amount?: number
         }
@@ -254,6 +260,7 @@ export type Database = {
           features: string[]
           id: string
           images: string[]
+          isActive: boolean
           name: string
           slug: string
         }
@@ -265,6 +272,7 @@ export type Database = {
           features: string[]
           id?: string
           images: string[]
+          isActive?: boolean
           name: string
           slug: string
         }
@@ -276,6 +284,7 @@ export type Database = {
           features?: string[]
           id?: string
           images?: string[]
+          isActive?: boolean
           name?: string
           slug?: string
         }

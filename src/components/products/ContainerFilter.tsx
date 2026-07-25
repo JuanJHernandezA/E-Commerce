@@ -1,163 +1,163 @@
-import React, { useState } from 'react'
-import Separator from '../shared/Separator';
+import React from 'react'
 import type { Brand, Category } from '../../interfaces';
 
-
-
-
 interface Props {
-  selectedBrands : string[];
-  setSelectedBrands: (brands:string[])=>void;
-  selectedCategories : string[];
-  setSelectedCategories: (categories:string[])=>void;
+  selectedBrands: string[];
+  setSelectedBrands: (brands: string[]) => void;
+  selectedCategories: string[];
+  setSelectedCategories: (categories: string[]) => void;
   categories: Category[];
-  brands: Brand[]
+  brands: Brand[];
 }
 
-const ContainerFilter = ({selectedBrands,setSelectedBrands, selectedCategories, setSelectedCategories, categories, brands}:Props) => {
+const ContainerFilter = ({
+  selectedBrands,
+  setSelectedBrands,
+  selectedCategories,
+  setSelectedCategories,
+  categories,
+  brands
+}: Props) => {
 
-  
-
-  const handleBrandChange = (brand:string)=>{
-    if (selectedBrands.includes(brand)){
-      setSelectedBrands(selectedBrands.filter(b=>b !==brand));
-    } else{
-      setSelectedBrands([...selectedBrands, brand]);
-
+  const handleBrandSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    if (!value) return;
+    if (!selectedBrands.includes(value)) {
+      setSelectedBrands([...selectedBrands, value]);
     }
-  }
+  };
 
-   const handleCategoryChange = (category:string)=>{
-    if (selectedCategories.includes(category)){
-      setSelectedCategories(selectedCategories.filter(c=>c !==category));
-    } else{
-      setSelectedCategories([...selectedCategories, category]);
-
+  const handleCategorySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    if (!value) return;
+    if (!selectedCategories.includes(value)) {
+      setSelectedCategories([...selectedCategories, value]);
     }
-  }
-  const [isOpenBrand, setIsOpenBrand] = useState(false);
-  const [isOpenCategory, setIsOpenCategory] = useState(false);
- 
+  };
+
+  const removeBrand = (brandToRemove: string) => {
+    setSelectedBrands(selectedBrands.filter(b => b !== brandToRemove));
+  };
+
+  const removeCategory = (categoryToRemove: string) => {
+    setSelectedCategories(selectedCategories.filter(c => c !== categoryToRemove));
+  };
+
+  const clearAllFilters = () => {
+    setSelectedBrands([]);
+    setSelectedCategories([]);
+  };
+
+  const totalActiveFilters = selectedBrands.length + selectedCategories.length;
+
   return (
-    // <div className='p-5 border border-slate-200 rounded-lg h-fit col-span-2 lg:col-span-1'>
-    //   <h3 className="font-semibold text-xl mb-4">
-    //     Filtros
-    //   </h3>
-    //   <Separator />
-    //   <div className="flex flex-col gap-3">
-    //     <h3 className="text-lg font-medium text-black">
-    //         Marcas
-    //     </h3>
-    //     <div className="flex flex-col gap-2">
-    //         {brands.map(brand=>(
-    //             <label key={brand.id_brand} className='inline-flex items-center'>
-    //                 <input type='checkbox' className='text-black border-black focus:ring:black accent-black' checked={selectedBrands.includes(brand.name_brand)} onChange={()=>handleBrandChange(brand.name_brand)}/>
-    //                 <span className='ml-2 text-black text-sm cursor-pointer'>{brand.name_brand}</span>
-    //             </label>
-    //         ))}
-    //     </div>
-    //   </div>
-    // </div>
-    <div className='p-5 border border-slate-200 rounded-lg h-fit col-span-2 lg:col-span-1 bg-white'>
-      <h3 className="font-semibold text-xl mb-4">
-        Filtros
-      </h3>
-      <Separator />
-      
-      <div className="flex flex-col gap-3">
-        {/* BOTÓN DEL MENÚ DESPLEGABLE */}
-        <button 
-          onClick={() => setIsOpenBrand(!isOpenBrand)}
-          className="flex items-center justify-between w-full text-lg font-medium text-black py-2 focus:outline-none"
-        >
-          <span>
-            Marcas 
-            {/* Pequeño indicador de cuántas hay seleccionadas */}
-            {selectedBrands.length > 0 && (
-              <span className="ml-2 text-xs bg-black text-white px-2 py-0.5 rounded-full">
-                {selectedBrands.length}
-              </span>
-            )}
-          </span>
-          
-          {/* Icono de flecha que rota si está abierto */}
-          <svg 
-            className={`w-5 h-5 transition-transform duration-200 ${isOpenBrand ? 'rotate-180' : ''}`} 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
+    <div className="w-full flex flex-col gap-2.5 items-stretch sm:items-end">
+      {/* Fila de Controles (Selects + Botón Limpiar) */}
+      <div className="flex flex-wrap items-center justify-between sm:justify-end gap-2 w-full">
+        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+          {/* Select de Marcas */}
+          <div className="relative flex-1 sm:flex-initial min-w-[130px]">
+            <select
+              onChange={handleBrandSelect}
+              value=""
+              className="w-full appearance-none bg-white border border-slate-300 text-slate-800 text-xs sm:text-sm font-medium py-2 pl-3 pr-8 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all cursor-pointer hover:border-slate-400"
+            >
+              <option value="" disabled>
+                Marca {selectedBrands.length > 0 ? `(${selectedBrands.length})` : ''}
+              </option>
+              {brands.map((brand) => (
+                <option key={brand.id_brand} value={brand.name_brand}>
+                  {brand.name_brand} {selectedBrands.includes(brand.name_brand) ? '✓' : ''}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-500">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
 
-        {/* CONTENEDOR DESPLEGABLE CON MÁXIMO ALTO Y SCROLL */}
-        <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
-          isOpenBrand ? 'max-h-60 opacity-100 mt-2' : 'max-h-0 opacity-0 pointer-events-none'
-        }`}>
-          <div className="flex flex-col gap-2 overflow-y-auto max-h-52 pr-2 custom-scrollbar">
-            {brands.map(brand => (
-              <label key={brand.id_brand} className='inline-flex items-center p-1 rounded hover:bg-slate-50 cursor-pointer transition-colors'>
-                <input 
-                  type='checkbox' 
-                  className='text-black border-slate-300 rounded focus:ring-black accent-black h-4 w-4' 
-                  checked={selectedBrands.includes(brand.name_brand)} 
-                  onChange={() => handleBrandChange(brand.name_brand)}
-                />
-                <span className='ml-2 text-slate-700 text-sm'>{brand.name_brand}</span>
-              </label>
-            ))}
+          {/* Select de Categorías */}
+          <div className="relative flex-1 sm:flex-initial min-w-[130px]">
+            <select
+              onChange={handleCategorySelect}
+              value=""
+              className="w-full appearance-none bg-white border border-slate-300 text-slate-800 text-xs sm:text-sm font-medium py-2 pl-3 pr-8 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all cursor-pointer hover:border-slate-400"
+            >
+              <option value="" disabled>
+                Categoría {selectedCategories.length > 0 ? `(${selectedCategories.length})` : ''}
+              </option>
+              {categories.map((category) => (
+                <option key={category.id_category} value={category.name_category}>
+                  {category.name_category} {selectedCategories.includes(category.name_category) ? '✓' : ''}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-500">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex flex-col gap-3">
-        {/* BOTÓN DEL MENÚ DESPLEGABLE */}
-        <button 
-          onClick={() => setIsOpenCategory(!isOpenCategory)}
-          className="flex items-center justify-between w-full text-lg font-medium text-black py-2 focus:outline-none"
-        >
-          <span>
-            Categorías 
-            {/* Pequeño indicador de cuántas hay seleccionadas */}
-            {selectedCategories.length > 0 && (
-              <span className="ml-2 text-xs bg-black text-white px-2 py-0.5 rounded-full">
-                {selectedCategories.length}
-              </span>
-            )}
-          </span>
-          
-          {/* Icono de flecha que rota si está abierto */}
-          <svg 
-            className={`w-5 h-5 transition-transform duration-200 ${isOpenCategory ? 'rotate-180' : ''}`} 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
 
-        {/* CONTENEDOR DESPLEGABLE CON MÁXIMO ALTO Y SCROLL */}
-        <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
-          isOpenCategory ? 'max-h-60 opacity-100 mt-2' : 'max-h-0 opacity-0 pointer-events-none'
-        }`}>
-          <div className="flex flex-col gap-2 overflow-y-auto max-h-52 pr-2 custom-scrollbar">
-            {categories.map(category => (
-              <label key={category.id_category} className='inline-flex items-center p-1 rounded hover:bg-slate-50 cursor-pointer transition-colors'>
-                <input 
-                  type='checkbox' 
-                  className='text-black border-slate-300 rounded focus:ring-black accent-black h-4 w-4' 
-                  checked={selectedCategories.includes(category.name_category)} 
-                  onChange={() => handleCategoryChange(category.name_category)}
-                />
-                <span className='ml-2 text-slate-700 text-sm'>{category.name_category}</span>
-              </label>
-            ))}
-          </div>
-        </div>
+        {/* Botón de Limpiar Todo */}
+        {totalActiveFilters > 0 && (
+          <button
+            type="button"
+            onClick={clearAllFilters}
+            className="text-xs font-semibold  hover:underline cursor-pointer whitespace-nowrap ml-auto sm:ml-0"
+          >
+            Limpiar ({totalActiveFilters})
+          </button>
+        )}
       </div>
+
+      {/* Badges / Chips de Filtros Activos */}
+      {totalActiveFilters > 0 && (
+        <div className=" flex-wrap hidden md:flex items-center justify-start sm:justify-end gap-1.5 pt-1 w-full">
+          <span className="text-[11px] font-medium text-slate-400 mr-1">Filtros:</span>
+
+          {selectedBrands.map((brand) => (
+            <span
+              key={`badge-brand-${brand}`}
+              className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-black text-white"
+            >
+              <span>{brand}</span>
+              <button
+                type="button"
+                onClick={() => removeBrand(brand)}
+                className="hover:bg-slate-700 rounded-full p-0.5 transition-colors cursor-pointer"
+              >
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </span>
+          ))}
+
+          {selectedCategories.map((category) => (
+            <span
+              key={`badge-cat-${category}`}
+              className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-800 text-white"
+            >
+              <span>{category}</span>
+              <button
+                type="button"
+                onClick={() => removeCategory(category)}
+                className="hover:bg-slate-600 rounded-full p-0.5 transition-colors cursor-pointer"
+              >
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default ContainerFilter
+export default ContainerFilter;

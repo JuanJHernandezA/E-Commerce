@@ -1,9 +1,8 @@
-import React from "react";
-import { useOrder } from "../hooks";
+import { IoChevronBack } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../components/shared/Loader";
-import { IoChevronBack } from "react-icons/io5";
 import { formatDateLong, formatPrice } from "../helpers";
+import { useOrder } from "../hooks";
 
 const tableHeaders = ["Producto", "Cantidad", "Total"];
 
@@ -90,7 +89,7 @@ export const OrderUserPage = () => {
       </div>
 
       <div className="flex flex-col gap-3">
-        <h2 className="text-lg font-bold">
+        <h2 className="text-lg font-bold"> Dirección </h2>
           <div className="border border-stone-300 p-5 flex flex-col gap-5">
             <div className="space-y-1">
               <h3 className="fobnt-medium">
@@ -109,7 +108,7 @@ export const OrderUserPage = () => {
               <p>{order.address.postalCode && (<>Código postal: </>)}{order.address.postalCode}</p>
               <p>País: {order.address.country}</p></div>
           </div>
-        </h2>
+        
       </div>
     </div>
   );
