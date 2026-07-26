@@ -14,6 +14,7 @@ import { SelectAddress } from "./SelectAddress";
 const FormCheckout = () => {
   const [receipt, setReceipt] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const navigate = useNavigate();
   const {
     register,
     setValue,
@@ -31,35 +32,6 @@ const FormCheckout = () => {
   const cleanCart = useCartStore((state) => state.cleanCart);
   const cartItems = useCartStore((state) => state.items);
   const totalAmount = useCartStore((state) => state.totalAmount);
-  
-  const onSubmit = handleSubmit((data) => {
-    if (!receipt) {
-    return;
-  }
-    const orderInput = {
-      address: data,
-      cartItems: cartItems.map((item) => ({
-        variantId: item.variantId,
-        quantity: item.quantity,
-        price: item.price,
-      })),
-      totalAmount,
-       receipt,
-    };
-    createOrder(orderInput,{
-      onSuccess:()=>{
-        cleanCart();
-      }
-    });
-
-  });
-
-  if(isPending){
-    return <div className="flex flex-col gap-3 h-screen items-center justify-center">
-      <ImSpinner className="animate-spin h-10 w-10"></ImSpinner>
-      <p className="text-sm font-medium">Estamos procesando tu pedido</p>
-    </div>
-  }
 
   const handleReceiptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -82,7 +54,36 @@ const FormCheckout = () => {
       shouldValidate: true,
     });
   };
-  const navigate = useNavigate()
+
+  const onSubmit = handleSubmit((data) => {
+    if (!receipt) {
+      return;
+    }
+    const orderInput = {
+      address: data,
+      cartItems: cartItems.map((item) => ({
+        variantId: item.variantId,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+      totalAmount,
+      receipt,
+    };
+    createOrder(orderInput, {
+      onSuccess: () => {
+        cleanCart();
+      },
+    });
+  });
+
+  if (isPending) {
+    return (
+      <div className="flex flex-col gap-3 h-screen items-center justify-center">
+        <ImSpinner className="animate-spin h-10 w-10"></ImSpinner>
+        <p className="text-sm font-medium">Estamos procesando tu pedido</p>
+      </div>
+    );
+  }
 
   return (
     <div>

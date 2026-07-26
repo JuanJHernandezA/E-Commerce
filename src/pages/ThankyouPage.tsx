@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { CiCircleCheck } from "react-icons/ci";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -11,22 +10,20 @@ import { supabase } from "../supabase/client";
 export const ThankyouPage = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, isError } = useOrder(Number(id));
+  const { isLoading: isLoadingUser } = useUser();
+  const navigate = useNavigate();
 
-  if (isError ) return <div>Error al cerrar la orden</div>;
- 
+  useEffect(() => {
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === "SIGNED_OUT" || !session) {
+        navigate("/login");
+      }
+    });
+  }, [navigate]);
 
-  const { isLoading:isLoadingUser } = useUser();
-    const navigate = useNavigate();
-  
-    useEffect(() => {
-      supabase.auth.onAuthStateChange(async (event, session) => {
-        if (event === "SIGNED_OUT" || !session) {
-          navigate("/login");
-        }
-      });
-    }, [navigate]);
-  
-     if (isLoading || !data || isLoadingUser) return <Loader />;
+  if (isError) return <div>Error al cerrar la orden</div>;
+  if (isLoading || !data || isLoadingUser) return <Loader />;
+
   return (
     <div className="flex flex-col h-screen">
       <header className="text-black flex items-center justify-center flex-col px-10 py-12">
@@ -125,9 +122,7 @@ export const ThankyouPage = () => {
             </div>
 
             <div className="flex flex-col text-sm">
-              <p className="font-semibold">Método de envío
-
-              </p>
+              <p className="font-semibold">Método de envío</p>
               <p>Standard</p>
             </div>
           </div>
@@ -140,7 +135,6 @@ export const ThankyouPage = () => {
 
           <Link to='/productos' className="text-white bg-black py-4 text-sm rounded-md px-5 tracking-tight font-semibold">
           Seguir comprando</Link>
-
         </div>
       </main>
     </div>
